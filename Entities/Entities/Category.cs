@@ -12,7 +12,5 @@ namespace Entities.Entities
         public int? CategoryId { get; set; }
         public List<Category> Children { get; set; } = new List<Category>();
 
-        public bool IsExpanded { get; set; } = false; 
-        public bool IsEditing { get; set; } = false; 
     }
 }

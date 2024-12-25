@@ -60,7 +60,26 @@ namespace TreeMenuService.Controllers
             return CreatedAtAction(nameof(GetMainCategories), new { id = category.Id }, category);
         }
 
-     
+        [HttpPut("{id}/update-parent")]
+        public async Task<IActionResult> UpdateParentId(int id, int? newParentId)
+        {
+            var category = await _context.Categories.FindAsync(id);
+            if (category == null) return NotFound();
+
+            if (newParentId.HasValue)
+            {
+                var parentCategory = await _context.Categories.FindAsync(newParentId.Value);
+                if (parentCategory == null) return NotFound($"Parent category with ID {newParentId} not found.");
+            }
+
+            category.CategoryId = newParentId;
+            await _context.SaveChangesAsync();
+
+            return Ok(category);
+        }
+
+
+
         [HttpPut("{id}")] 
         public async Task<IActionResult> UpdateCategory(int id, Category updatedCategory)
         {
